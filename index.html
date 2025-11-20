@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LightPoet Creatives — Photography</title>
+  <meta name="description" content="LightPoet Creatives — Where light tells the story. Portraits, events, corporate photography." />
+
+  <style>
+    /* ------------------------
+       CSS variables + theme system
+       ------------------------*/
+    :root{
+      --bg: #0f0f10; /* default cinematic */
+      --fg: #f7f7f8;
+      --muted: #bdbdbf;
+      --accent: #e2b74a;
+      --accent-2: #e85b5b;
+      --card-bg: rgba(255,255,255,0.03);
+      --glass: rgba(255,255,255,0.04);
+      --max-width: 1100px;
+      --radius: 14px;
+      --mono: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    /* Minimal theme */
+    .theme-minimal { --bg:#ffffff; --fg:#0b0b0b; --muted:#545454; --accent:#0b66ff; --card-bg: rgba(11,11,11,0.03); --glass: rgba(11,11,11,0.03);} 
+    /* Cinematic dark */
+    .theme-cinematic{ --bg: #050506; --fg:#f6f6f7; --muted:#9b9b9f; --accent:#d9c07a; --card-bg: rgba(255,255,255,0.03); --glass: rgba(255,255,255,0.02);} 
+    /* Bold & colourful */
+    .theme-bold{ --bg:#fff7f8; --fg:#111014; --muted:#6b6b6f; --accent:#ff3b6b; --accent-2:#5b8cff; --card-bg: rgba(17,16,20,0.02); --glass: rgba(17,16,20,0.02);} 
+    /* Editorial */
+    .theme-editorial { --bg:#fbfbfb; --fg:#0a0a0a; --muted:#666; --accent:#0b1015; --card-bg: rgba(10,10,10,0.02); --glass: rgba(10,10,10,0.03);} 
+
+    /* Global resets */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{font-family:var(--mono);margin:0;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* Layout */
+    header{position:sticky;top:12px;z-index:50;display:flex;align-items:center;justify-content:space-between;max-width:var(--max-width);margin:12px auto;padding:10px;background:linear-gradient(180deg,transparent,var(--glass));border-radius:12px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:54px;height:54px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;font-weight:700;color:var(--bg);font-size:18px}
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{padding:8px 10px;border-radius:8px;font-size:15px;color:var(--muted)}
+    nav a:hover{color:var(--fg);background:var(--card-bg)}
+
+    /* Theme controls */
+    .themes{display:flex;gap:8px}
+    .theme-btn{border:0;padding:6px;border-radius:8px;font-size:13px;cursor:pointer;background:transparent;color:var(--muted)}
+
+    main{max-width:var(--max-width);margin:36px auto;padding:22px}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items: flex-start;margin-top:18px}
+    .hero .eyebrow{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:1px}
+    .hero h1{font-size:44px;margin:6px 0 10px;line-height:1.02}
+    .hero p{color:var(--muted);max-width:70%}
+
+    .cta{display:flex;gap:10px;margin-top:18px}
+    .btn{padding:10px 14px;border-radius:12px;font-weight:600;border:0;cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:var(--bg)}
+    .btn-ghost{background:transparent;color:var(--fg);border:1px solid rgba(255,255,255,0.04)}
+
+    /* Portfolio grid */
+    .portfolio{margin:54px 0}
+    .filters{display:flex;gap:10px;margin-bottom:18px}
+    .filter{padding:8px 12px;border-radius:12px;background:var(--card-bg);cursor:pointer;color:var(--muted)}
+    .filter.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:var(--bg)}
+
+    .collage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  grid-auto-rows: 200px;
+  gap: 12px; /* space between images */
+  width: 100%;
+  margin: 18px auto 0 auto;
+}
+
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* responsive columns */
+  grid-auto-rows: auto; /* rows adjust to image height */
+  gap: 12px;
+  width: 100%;
+  margin: 18px auto 0 auto;
+}
+
+.collage-grid .item {
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.collage-grid .item img {
+  width: 100%;
+  height: auto;  /* keep original aspect ratio */
+  display: block;
+  border-radius: 15px;
+  transition: transform 0.4s ease;
+}
+
+.collage-grid .item:hover img {
+  transform: scale(1.05);
+}
+
+.collage-grid .item-large {
+  grid-column: span 2; /* spans two columns on desktop */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .collage-grid .item-large {
+    grid-column: span 2; /* smaller span for medium screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .collage-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .collage-grid .item-large {
+    grid-column: span 2; /* full width on mobile */
+  }
+}
+
+
+
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(2,2,2,0.75);display:flex;justify-content: center;place-items:center;padding:28px;z-index:200;opacity:0;pointer-events:none;overflow: auto; transition:opacity .2s}
+    .lightbox.open{opacity:1;pointer-events:auto}
+    .lightbox img{max-width:90%;max-height:90vh; width: auto; height: auto;border-radius:10px;display: block; margin: auto}
+    .lb-close{position:absolute;top:30px;right:30px;background:transparent;border:0;color:var(--fg);font-size:28px;cursor:pointer}
+    .lb-prev, .lb-next {
+  position: absolute;top: 50%;transform: translateY(-50%);background: rgba(0,0,0,0.5);border: none;color: white;font-size: 36px;padding: 12px 18px;cursor: pointer;border-radius: 50%;z-index: 210;}
+.lb-prev { left: 20px; }
+.lb-next { right: 20px; }
+.lb-prev:hover, .lb-next:hover { background: rgba(0,0,0,0.7); }
+
+
+    /* Sections */
+    section{padding:36px 0;border-top:1px dashed rgba(255,255,255,0.02)}
+
+    .about{display:flex;gap:22px;align-items:center}
+    .about .bio{max-width:680px}
+    .about .bio h2{font-size:28px;margin:0}
+    .about .bio p{color:var(--muted);line-height:1.6}
+
+    .testimonials{display:flex;flex-direction:column;gap:12px}
+    .tcard{background:var(--card-bg);padding:18px;border-radius:12px}
+    .tmeta{display:flex;gap:12px;align-items:center}
+    .avatar{width:44px;height:44px;border-radius:50%;background:var(--muted);display:inline-block}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    form{display:flex;flex-direction:column;gap:12px}
+    input,textarea{padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--fg);outline:none}
+    textarea{min-height:140px}
+    .foot{color:var(--muted);font-size:13px;margin-top:12px}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      header{margin:8px}
+      .contact-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:520px){
+      .grid{grid-template-columns:1fr}
+      nav{display:none}
+      header{padding:12px}
+    }
+
+    /* small utility */
+    .muted{color:var(--muted)}
+  </style>
+</head>
+<body class="theme-cinematic">
+
+  <header>
+    <div class="brand">
+      <div class="logo">
+  <img src="images/logo.jpg" alt="logo" style="width:100%; height:100%; object-fit:contain;">
+</div>
+
+      <div>
+        <div style="font-weight:700">LightPoet Creatives</div>
+        <div style="font-size:12px;color:var(--muted)">Where light tells the story</div>
+      </div>
+    </div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="about.html">About</a>
+      <a href="testimonial.html">Testimonials</a>
+      <a href="contacts.html">Contact</a>
+      
+      <div class="themes" style="margin-left:12px">
+        <button class="theme-btn" data-theme="cinematic">Cinematic</button>
+        <button class="theme-btn" data-theme="minimal">Minimal</button>
+        <button class="theme-btn" data-theme="bold">Bold</button>
+        <button class="theme-btn" data-theme="editorial">Editorial</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Fine Art & Commercial</div>
+        <h1>Stories written in light.<br/><span class="muted">Portraits — Events — Corporate</span></h1>
+        <p>Life doesn't come with a pause button, but a photograph comes pretty close. Whether it's a radiant smile, a shared toast or a quiet moment of reflection, we turn fleeting scenes into timeless treasures. At LightPoet Creatives, we let light do the storytelling, so your memories stay beautifully alive.</p>
+        <div class="cta">
+          <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a Session</button>
+          <a href="#portfolio" class="btn btn-ghost">View Portfolio</a>
+        </div>
+      </div>
+
+      <div style="border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.35)">
+        <img src="images/sammy.jpg" alt="sammy">
+    </section>
+
+    <section id="portfolio" class="portfolio">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+    <div>
+      <div style="font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Portfolio</div>
+      <h2 style="margin:6px 0 0">Where Memories Stay Beautifully Alive.</h2>
+      <p class="muted" style="max-width:600px">
+        Curated galleries showing a mix of portraits, event coverage, and corporate imagery. Click any image to open a larger view.
+      </p>
+    </div>
+  </div>
+
+  <!-- Collage Grid -->
+  <div class="collage-grid" id="gallery">
+    <div class="item item-large" data-tag="moment">
+      <img src="images/moment1.jpg" alt="Moment 1">
+    </div>
+    <div class="item" data-tag="moment">
+      <img src="images/moment2.jpg" alt="Moment 2">
+    </div>
+    <div class="item" data-tag="portrait">
+      <img src="images/portrait1.jpg" alt="Portrait 1">
+    </div>
+    <div class="item" data-tag="event">
+      <img src="images/event1.jpg" alt="Event 1">
+    </div>
+    <div class="item" data-tag="corporate">
+      <img src="images/corporate1.jpg" alt="Corporate 1">
+    </div>
+    <div class="item" data-tag="moment">
+      <img src="images/moment3.jpg" alt="Moment 3">
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:20px;">
+    <a href="portfolio.html" class="btn btn-primary">View More</a>
+  </div>
+</section>
+
+</div>
+
+
+          
+
+          
+          
+          
+    </section>
+
+    <section id="about-preview" class="section" style="display:flex; align-items:center; gap:40px; flex-wrap:wrap;">
+  <div style="flex:1;">
+    <h2>About Me</h2>
+    <p>Hi! I'm Bosworth, A portrait, event and lifestyle photographer with an editorial approach, based in Nairobi, Kenya.</p>
+    <a href="about.html" class="btn btn-primary">More About Me</a>
+
+    
+  </div>
+  <div style="flex:1; max-width:400px;">
+    <img src="images/bosworth.jpg" alt="Bosworth Banks" style="width:100%; border-radius:12px;">
+  </div>
+</section>
+
+
+  </div>
+</section>
+
+   
+
+    <section id="testimonials">
+      <h3 style="margin:0 0 12px">What clients say</h3>
+      <div class="testimonials">
+        <div class="tcard">
+          <div class="tmeta"><div class="avatar"></div><div><strong>Jane O.</strong><div class="muted" style="font-size:13px">Corporate event</div></div></div>
+          <p class="muted">"Bosworth captured our annual dinner beautifully — thoughtful, unobtrusive, and the photos were stunning."</p>
+        </div>
+        <div class="tcard">
+          <div class="tmeta"><div class="avatar"></div><div><strong>Mark K.</strong><div class="muted" style="font-size:13px">Portrait session</div></div></div>
+          <p class="muted">"A brilliant portrait session. Bosworth made the whole experience easy and the images are professional and emotive."</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h3 style="margin-top:0">Get in touch</h3>
+      <div class="contact-grid">
+        <form id="contactForm" onsubmit="sendForm(event)">
+          <input type="text" id="name" placeholder="Your name" required />
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="text" id="subject" placeholder="Subject" />
+          <textarea id="message" placeholder="Tell me about your project" required></textarea>
+          <button class="btn btn-primary" type="submit">Send message</button>
+          <div class="foot">Prefer email? <a href="mailto:hello@lightpoetcreatives.com">hello@lightpoetcreatives.com</a></div>
+        </form>
+
+        <div style="padding:18px;border-radius:12px;background:var(--card-bg);height:100%">
+          <h4 style="margin-top:0">Booking & Rates</h4>
+          <p class="muted">I offer portrait sessions, event coverage, and corporate packages. For availability and bespoke pricing please get in touch.</p>
+          <div style="margin-top:12px">
+            <strong>Location</strong>
+            <div class="muted">Nairobi, Kenya (willing to travel)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer style="text-align:center;margin:36px auto;color:var(--muted)">© <span id="year"></span> LightPoet Creatives · All Rights Reserved</footer>
+
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-hidden="true">
+    <button class="lb-close" onclick="closeLightbox()">✕</button>
+    <img id="lbImg" src="" alt="Expanded image">
+  </div>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme switcher
+    document.querySelectorAll('.theme-btn').forEach(b=>b.addEventListener('click',()=>{
+      const map = {cinematic:'theme-cinematic', minimal:'theme-minimal', bold:'theme-bold', editorial:'theme-editorial'};
+      document.body.className = map[b.dataset.theme];
+    }));
+
+    // Gallery filter
+    const filters = document.querySelectorAll('.filter');
+    const items = Array.from(document.querySelectorAll('#gallery .item'));
+    filters.forEach(f=>f.addEventListener('click',()=>{
+      filters.forEach(x=>x.classList.remove('active'));
+      f.classList.add('active');
+      const tag = f.dataset.filter;
+      items.forEach(i=>{
+        if(tag === 'all' || i.dataset.tag === tag) i.style.display = '';
+        else i.style.display = 'none';
+      })
+    }));
+
+   // Lightbox
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const galleryItems = Array.from(document.querySelectorAll('.collage-grid .item'));
+
+let currentIndex = 0;
+
+galleryItems.forEach((item, index) => {
+  item.addEventListener('click', () => {
+    currentIndex = index;
+    openLightbox(item);
+  });
+});
+
+function openLightbox(item) {
+  const img = item.querySelector('img');
+  lbImg.src = img.src;
+  lbImg.alt = img.alt;
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden','false');
+}
+
+function closeLightbox() {
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden','true');
+}
+
+function nextImage() {
+  currentIndex = (currentIndex + 1) % galleryItems.length;
+  openLightbox(galleryItems[currentIndex]);
+}
+
+function prevImage() {
+  currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+  openLightbox(galleryItems[currentIndex]);
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'ArrowRight') nextImage();
+  if(e.key === 'ArrowLeft') prevImage();
+});
+
+    // Simple contact form handler — client side only
+    function sendForm(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if(!name || !email || !message){ alert('Please fill the required fields'); return }
+      // Fallback: open mail client with the message
+      const subject = encodeURIComponent(document.getElementById('subject').value || 'Photography inquiry');
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      window.location.href = `mailto:banksbosworth@gmail.com?subject=${subject}&body=${body}`;
+    }
+
+    // Small accessibility: smooth anchor scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{ e.preventDefault(); document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'}); }));
+  </script>
+
+</body>
+</html>
